@@ -17,7 +17,6 @@ function t2() {
 
 document.querySelector('.div-2').addEventListener("touchstart", t2);
 
-
 // Task 3 ============================================
 /*  Создайте блок div-3_1 и div-3_2. Добавьте на них событие touchstart. Выведите в out-3 номер блока 1 или 2 на котором сработало событие. */
 
@@ -32,7 +31,6 @@ function t3_2() {
 document.querySelector('.div-3_1').addEventListener("touchstart", t3_1);
 document.querySelector('.div-3_2').addEventListener("touchstart", t3_2);
 
-
 // Task 4 ============================================
 /*  Создайте блок div-4. И кнопку b-4. При нажатии кнопки - добавляйте событие ontouchstart на блок div-4. При событии происходит вывод текста touch в out-4.  */
 
@@ -43,7 +41,6 @@ function t4() {
 document.querySelector('.b-4').addEventListener("touchstart", function () {
     document.querySelector('.div-4').addEventListener("touchstart", t4)
 });
-
 
 // Task 5 ============================================
 /*  Дана кнопка b-5. При ее нажатии очищайте событие ontouchstart на блоке div-4. */
@@ -62,7 +59,6 @@ function t6() {
 }
 
 document.querySelector('.div-4').addEventListener("touchend", t6);
-
 
 // Task 7 ============================================
 /*  Дан блок div-7. Добавьте событие touch, при срабатывании которого окрашивайте блок в красный цвет. */
@@ -86,34 +82,34 @@ function t8(min, max) {
 
 document.querySelector('.div-8').addEventListener("touchstart", t8);
 
-
 // Task 9 ============================================
 /* Дан блок div-9. Добавьте событие ontouch. Выводите количество одновременных касаний в out-9. */
 
 function t9() {
-
+    document.querySelector('.out-9').innerHTML += event.touches.length;
 }
 
-// ваше событие здесь!!!
-
+document.querySelector('.div-9').addEventListener("touchstart", t9);
 
 // Task 10 ============================================
 /*  Дан блок div-10. Добавьте на него событие touchmove. При срабатывании события - увеличивайте его ширину на 1. */
 
+let w10 = 75;
 function t10() {
-
+    w10++;
+    document.querySelector('.div-10').style.width = w10 + 'px';
 }
 
-// ваше событие здесь!!!
+document.querySelector('.div-10').addEventListener("touchmove", t10);
 
 // Task 11 ============================================
 /*  Дан блок div-11. Добавьте на него событие touch. При срабатывании выводите радиус события radiusX, radiusY. */
 
-function t11() {
-
+function t11(event) {
+    document.querySelector('.out-11').innerHTML = 'radiusX = ' + event.touches[0].radiusX + '<br>' + ' radiusY = ' + event.touches[0].radiusY;
 }
 
-// ваше событие здесь!!!
+document.querySelector('.div-11').addEventListener("touchstart", t11);
 
 // Task 12 ============================================
 /*  Мини проект. Ознакомьтесь с версткой в задании 12. Добавьте touch события так, чтобы при клике на img-12-min картинка появлялась в блоке div-12-max. Если нажимается кнопка prev - то появляется изображение идущее перед текущим. Если нажимается кнопка next - то после текущего. Выбор изображений зациклен.  Изображение, которое сейчас дублируется в большом блоке должно выделяться классом .active-img. Добавьте кнопку reset для сброса состояния, когда выводится первое изображение. Все изображения и начальное состояние - выводится из массива 
@@ -122,10 +118,57 @@ function t11() {
     Источник иконок https://www.iconfinder.com/iconsets/unigrid-phantom-halloween
 */
 
-function t11() {
+let imgsMin = document.querySelectorAll('.img-12-min');
+let imgMax = document.querySelector('.div-12-max > img');
+const a = ['1.png', '2.png', '3.png', '4.png', '5.png', '6.png'];
+let btnNext = document.querySelector('.next');
+let btnPref = document.querySelector('.prev');
+let btnReset = document.querySelector('.reset');
+let key = 0;
 
+function t12Clear() {
+    imgsMin.forEach(function (img) {
+        img.classList.remove('active-img');
+    });
 }
 
-// ваше событие здесь!!!
+btnReset.addEventListener("touchstart", t12Reset);
+function t12Reset() {
+    key = 0;
+    t12Clear();
+    imgMax.src = 'img/' + a[key];
+    imgsMin[key].classList.add('active-img');
+}
 
+btnNext.addEventListener("touchstart", t12Next);
+function t12Next() {
+    key++;
+    if (key > a.length - 1) key = 0;
+    t12Clear();
+    imgMax.src = 'img/' + a[key];
+    imgsMin[key].classList.add('active-img');
+    console.log(key);
+}
+
+btnPref.addEventListener("touchstart", t12Pref);
+function t12Pref() {
+    key--;
+    if (key < 0) key = a.length - 1;
+    t12Clear();
+    imgMax.src = 'img/' + a[key];
+    imgsMin[key].classList.add('active-img');
+    console.log(key);
+}
+
+imgsMin.forEach(function (img, index) {
+    function t12() {
+        t12Clear();
+        key = index;
+        imgMax.src = img.src;
+        console.log(img.src);
+        this.classList.add('active-img');
+
+    };
+    img.addEventListener("touchstart", t12);
+});
 
