@@ -120,26 +120,45 @@ document.querySelector('.div-11').addEventListener("touchstart", t11);
 
 let imgsMin = document.querySelectorAll('.img-12-min');
 let imgMax = document.querySelector('.div-12-max > img');
-const a = ['1.png', '2.png', '3.png', '4.png', '5.png', '6.png'];
 let btnNext = document.querySelector('.next');
 let btnPref = document.querySelector('.prev');
 let btnReset = document.querySelector('.reset');
+let out_12 = document.querySelector('.out-12');
+const a = ['1.png', '2.png', '3.png', '4.png', '5.png', '6.png'];
+let icon = {
+    "1.png": 'zombie',
+    "2.png": 'pumpkin',
+    "3.png": 'spider',
+    "4.png": 'poison',
+    "5.png": 'cauldron',
+    "6.png": 'hand'
+}
 let key = 0;
 
+// Добвление атрибута data-text в img
+imgsMin.forEach(function (elem, index) {
+    elem.setAttribute('data-text', icon[a[index]]);
+});
+
+// Функция удаления выделения (обводки) у картинок
 function t12Clear() {
-    imgsMin.forEach(function (img) {
-        img.classList.remove('active-img');
+    imgsMin.forEach(function (elem) {
+        elem.classList.remove('active-img');
     });
 }
 
+// Кнопка reset 
 btnReset.addEventListener("touchstart", t12Reset);
 function t12Reset() {
     key = 0;
     t12Clear();
     imgMax.src = 'img/' + a[key];
     imgsMin[key].classList.add('active-img');
+    out_12.innerHTML = imgsMin[key].getAttribute('data-text');
 }
 
+
+// Кнопка next 
 btnNext.addEventListener("touchstart", t12Next);
 function t12Next() {
     key++;
@@ -147,9 +166,11 @@ function t12Next() {
     t12Clear();
     imgMax.src = 'img/' + a[key];
     imgsMin[key].classList.add('active-img');
+    out_12.innerHTML = imgsMin[key].getAttribute('data-text');
     console.log(key);
 }
 
+// Кнопка prev 
 btnPref.addEventListener("touchstart", t12Pref);
 function t12Pref() {
     key--;
@@ -157,9 +178,11 @@ function t12Pref() {
     t12Clear();
     imgMax.src = 'img/' + a[key];
     imgsMin[key].classList.add('active-img');
+    out_12.innerHTML = imgsMin[key].getAttribute('data-text');
     console.log(key);
 }
 
+// Выбор картинки при помощи touch 
 imgsMin.forEach(function (img, index) {
     function t12() {
         t12Clear();
@@ -167,7 +190,7 @@ imgsMin.forEach(function (img, index) {
         imgMax.src = img.src;
         console.log(img.src);
         this.classList.add('active-img');
-
+        out_12.innerHTML = imgsMin[key].getAttribute('data-text');
     };
     img.addEventListener("touchstart", t12);
 });
